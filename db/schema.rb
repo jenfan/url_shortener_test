@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_08_232515) do
+ActiveRecord::Schema.define(version: 2021_08_10_013849) do
+
+  create_table "request_ip_stats", id: false, force: :cascade do |t|
+    t.string "ip"
+    t.integer "visit_count", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ip"], name: "index_request_ip_stats_on_ip"
+  end
 
   create_table "short_urls", id: false, force: :cascade do |t|
     t.string "slug"

@@ -1,4 +1,4 @@
-class UrlsController < ActionController::Base
+class UrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def show
@@ -8,9 +8,14 @@ class UrlsController < ActionController::Base
     redirect_to normalize(short_url.origin_url), status: 301
   end
 
+  def stats
+    short_url = ShortUrl.find_by!(slug: params[:slug])
+    render plain: short_url.show_count
+  end
+
   def create
     short_url = ShortUrls::FindOrCreate.new(params[:url]).call
-    render plain: normalize(short_url.slug)
+    render plain: "#{request.base_url}/#{short_url.slug}"
   end
 
   private
